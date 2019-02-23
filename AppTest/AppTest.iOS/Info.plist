@@ -24,6 +24,8 @@
 	<string>8.0</string>
 	<key>CFBundleDisplayName</key>
 	<string>AppTest</string>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleIdentifier</key>
 	<string>com.pfedotovsky.apptest</string>
 	<key>CFBundleVersion</key>
