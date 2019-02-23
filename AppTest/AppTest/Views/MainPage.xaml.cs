@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace AppTest.Views
 {
@@ -45,6 +45,15 @@ namespace AppTest.Views
 
                 IsPresented = false;
             }
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            var pushReceivedTime = Preferences.Get("PushReceived", DateTime.MinValue);
+
+            DisplayAlert("Alert", pushReceivedTime.ToLongTimeString(), "OK");
         }
     }
 }
