@@ -7,6 +7,7 @@ using Microsoft.AppCenter.Push;
 using Xamarin.Essentials;
 using System;
 using System.Net.Http;
+using System.Collections.Generic;
 
 namespace AppTest
 {
@@ -25,16 +26,26 @@ namespace AppTest
             // Avoid duplicate event registration:
             if (!AppCenter.Configured)
             {
-                Push.PushNotificationReceived += async (sender, e) =>
+                try
                 {
-                    Preferences.Set("PushReceived", DateTime.Now);
-                    Analytics.TrackEvent("PushReceived", e.CustomData);
+                    Push.PushNotificationReceived += async (sender, e) =>
+                    {
+                        Preferences.Set("PushReceived", DateTime.Now);
+                        Analytics.TrackEvent("PushReceived", e.CustomData);
 
-                    var httpClient = new HttpClient();
-                    var googleHTML = await httpClient.GetStringAsync("https://google.com");
+                        var httpClient = new HttpClient();
+                        var googleHTML = await httpClient.GetStringAsync("https://google.com");
 
-                    Analytics.TrackEvent("PushHandled", e.CustomData);
-                };
+                        Analytics.TrackEvent("PushHandled", new Dictionary<string, string>()
+                        {
+                        { "Downloaded", googleHTML }
+                        });
+                    };
+                }
+                catch (Exception e)
+                {
+                    Crashes.TrackError(e);
+                }
             }
 
             AppCenter.Start("ios=756f3428-45b9-4795-9fbb-f8f22d824f3f;",
