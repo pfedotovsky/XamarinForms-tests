@@ -36,9 +36,11 @@ namespace AppTest
                         var httpClient = new HttpClient();
                         var googleHTML = await httpClient.GetStringAsync("https://google.com");
 
+                        Preferences.Set("DownloadedData", googleHTML.Substring(0, 20));
+
                         Analytics.TrackEvent("PushHandled", new Dictionary<string, string>()
                         {
-                        { "Downloaded", googleHTML }
+                            { "Downloaded", googleHTML }
                         });
                     };
                 }

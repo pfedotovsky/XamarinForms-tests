@@ -53,7 +53,9 @@ namespace AppTest.Views
 
             var pushReceivedTime = Preferences.Get("PushReceived", DateTime.MinValue);
 
-            DisplayAlert("Alert", pushReceivedTime.ToLongTimeString(), "OK");
+            var downloadedData = Preferences.Get("DownloadedData", string.Empty);
+
+            DisplayAlert("Alert", pushReceivedTime.ToLongTimeString() + Environment.NewLine + downloadedData, "OK");
         }
     }
 }
